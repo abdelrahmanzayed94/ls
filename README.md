@@ -5,6 +5,7 @@ This program is a simple implementation of "ls" command with the following featu
 * Support long format (file type, permissions, num of links, user, group, time, ...) using "-l" option
 * Show hidden files using "-a" option
 * Show I_node value using "-i" option
+* Presentation of sticky bit
 
 command used for compilation:
 ```
