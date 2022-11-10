@@ -6,6 +6,7 @@ This program is a simple implementation of "ls" command with the following featu
 * Show hidden files using "-a" option
 * Show I_node value using "-i" option
 * Presentation of sticky bit
+* Supporting recursive ls using "-R" option
 
 command used for compilation:
 ```
@@ -83,4 +84,34 @@ wizo@wizo:~/workarea/FileSystem/ls$ ./myls /tmp / -lia
 4587521    drwx------   4     root       root       4096         Sep 10 13:09   root       
 1572865    drwxr-xr-x   3     root       root       4096         Sep 10 13:11   media      
 4718593    drwxr-xr-x   3     root       root       4096         Sep 10 12:57   home
+wizo@wizo:~/workarea/FileSystem/ls$ ./myls /home/wizo/workarea/FileSystem -R
+/home/wizo/workarea/FileSystem:
+fdisk      ls         
+
+/home/wizo/workarea/FileSystem/fdisk:
+myhdd      myfdisk.c  myfdisk    
+
+/home/wizo/workarea/FileSystem/ls:
+myls.c     myls       
+
+wizo@wizo:~/workarea/FileSystem/ls$ ./myls /home/wizo/workarea/FileSystem -liRa
+/home/wizo/workarea/FileSystem:
+4733521    drwxrwxr-x   2     wizo       wizo       4096         Nov  7 22:03   fdisk      
+4731638    drwxrwxr-x   4     wizo       wizo       4096         Nov  7 22:03   .          
+4738279    drwxrwxr-x   2     wizo       wizo       4096         Nov 10 19:26   ls         
+4719518    drwxrwxr-x   7     wizo       wizo       4096         Oct 31 14:28   ..         
+
+/home/wizo/workarea/FileSystem/fdisk:
+4735952    -rw-rw-r--   1     wizo       wizo       1048576      Oct 31 16:51d  myhdd      
+4733521    drwxrwxr-x   2     wizo       wizo       4096         Nov  7 22:03d  .          
+4735962    -rw-rw-r--   1     wizo       wizo       3445         Nov  1 17:10d  myfdisk.c  
+4731638    drwxrwxr-x   4     wizo       wizo       4096         Nov  7 22:03d  ..         
+4719184    -rwxrwxr-x   1     wizo       wizo       17056        Nov  1 17:10d  myfdisk    
+
+/home/wizo/workarea/FileSystem/ls:
+4737562    -rw-rw-r--   1     wizo       wizo       6156         Nov 10 19:26d  myls.c     
+4738279    drwxrwxr-x   2     wizo       wizo       4096         Nov 10 19:26d  .          
+4719300    -rwxrwxr-x   1     wizo       wizo       17928        Nov 10 19:26d  myls       
+4731638    drwxrwxr-x   4     wizo       wizo       4096         Nov  7 22:03d  ..    
+
 ```
