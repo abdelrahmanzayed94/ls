@@ -204,6 +204,39 @@ int ls_function(char* path, uint8_t flags)
 		printf("\n");
 	}
 	
+	/************handling R flag************/
+	if(flags & R_FLAG_POS)
+	{
+		printf("\n");
+		rewinddir(dirp);
+		while((direntp = readdir(dirp)) != NULL)
+		{
+			filename = realloc(filename, strlen(path) + strlen(direntp->d_name) + 2);
+			strcat(filename, path);
+			strcat(filename, "/");
+			strcat(filename, direntp->d_name);
+			//printf("filename = %s\n", filename);
+			
+			ret_val = stat(filename, &statbuf);	
+			
+			mode.value = statbuf.st_mode;
+			//printf("mode.value = %x\n", mode.value);
+			mode_parser(mode, mode_buf);
+			
+			//check for directories
+			if((mode_buf[0] == 'd') && (direntp->d_name[0] != '.'))
+			{
+				printf("%s:\n", filename);
+				ls_function(filename ,flags);
+			}
+			
+			
+			//reset filename value		
+			filename[0] = '\0';
+		}
+	}
+	/*************************************/
+	
 	free(filename);
 	
 function_exit:
@@ -252,12 +285,12 @@ int main(int argc, char** argv)
 	{
 		for(int i = optind; i < argc; i++)
 		{	
-			if(argc > 1 + optind)
+			if((argc > 1 + optind) || (flags & R_FLAG_POS))
 				printf("%s:\n", argv[i]);
 				
 			err = ls_function(argv[i], flags);
 			
-			if(argc > 1 + optind && i != argc - 1)
+			if((argc > 1 + optind) && (i != argc - 1))
 				printf("\n");
 		}
 	}
